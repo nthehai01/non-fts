@@ -8,7 +8,7 @@ from models import Linear, CellEncoder, Attention, PositionalEncoder
 class PointwiseHead(nn.Module):
     def __init__(self, dim):
         super(PointwiseHead, self).__init__()
-        self.fc0 = Linear(dim+1, 256)
+        self.fc0 = Linear(dim, 256)
         self.fc1 = Linear(256, 128)
         self.dropout = nn.Dropout(0.1)
         self.act = nn.LeakyReLU()
@@ -17,10 +17,6 @@ class PointwiseHead(nn.Module):
         
     def forward(self, x, md_pct):
         x = x[:, 1:-1]
-        x = torch.cat(
-            [x, md_pct.unsqueeze(-1).repeat(1, x.shape[1], 1)], 
-            dim=-1
-        )
 
         x = self.fc0(x)
         x = self.act(x)
@@ -31,7 +27,7 @@ class PointwiseHead(nn.Module):
         x = self.act(x)
 
         x = self.top(x)
-        
+
         return x.squeeze(-1)
 
 
