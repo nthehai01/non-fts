@@ -60,8 +60,8 @@ def train_one_epoch(model,
                 point_pred*reg_mask, 
                 batch['point_pct_target']
             ) * batch['n_md_cells']
-            # point_loss = point_loss.sum() / (batch['n_md_cells']*reg_mask).sum()
-            point_loss = point_loss.mean()
+            point_loss = point_loss.sum() / (batch['n_md_cells']*reg_mask).sum()
+            # point_loss = point_loss.mean()
             loss = point_loss
 
         scaler.scale(loss).backward()

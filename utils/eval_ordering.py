@@ -41,8 +41,8 @@ def get_raw_preds(model: nn.Module, loader: DataLoader, reg_criterion, device, n
                     point_pred*reg_mask, 
                     batch['point_pct_target']
                 ) * batch['n_md_cells']
-                # point_loss = point_loss.sum() / (batch['n_md_cells']*reg_mask).sum()
-                point_loss = point_loss.mean()
+                point_loss = point_loss.sum() / (batch['n_md_cells']*reg_mask).sum()
+                # point_loss = point_loss.mean()
 
                 point_loss_list.append(point_loss.item())
         
